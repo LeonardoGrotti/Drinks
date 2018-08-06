@@ -1,64 +1,42 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter/rendering.dart';
+import 'package:scoped_model/scoped_model.dart';
 
-import './pages/auth.dart';
-import './pages/products_admin.dart';
-import './pages/products.dart';
-import './pages/product.dart';
-import './models/product.dart';
+import './pages/lista_bares.dart';
+import './scope_models/main_model.dart';
+import './pages/perfil.dart';
+import './pages/compartilhar.dart';
+import './pages/apresenta_pedido.dart';
+
+/* import './widgets/bar_card.dart';
+import './models/modelo_bar.dart'; */
 
 void main() {
-  // debugPaintSizeEnabled = true;
-  // debugPaintBaselinesEnabled = true;
-  // debugPaintPointersEnabled = true;
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return _MyAppState();
-  }
-}
+class MyApp extends StatelessWidget {
+  final MainModel _model = MainModel();
+  /* final bar = Bar(name: 'Olivo', address: 'Rua teste 89', description: 'Ótimo bar para levar', distance: '2.2 km', image: 'assets/olivo.jpg'); */
 
-class _MyAppState extends State<MyApp> {
- 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      // debugShowMaterialGrid: true,
-      theme: ThemeData(
-          brightness: Brightness.light,
-          primarySwatch: Colors.deepOrange,
-          accentColor: Colors.deepPurple,
-          buttonColor: Colors.deepPurple),
-      routes: {
-        '/': (BuildContext context) => AuthPage(),
-        '/products': (BuildContext context) => ProductsPage(_products),
-        '/admin': (BuildContext context) =>
-            ProductsAdminPage(_addProduct, _updateProduct, _deleteProduct, _products),
-      },
-      onGenerateRoute: (RouteSettings settings) {
-        final List<String> pathElements = settings.name.split('/');
-        if (pathElements[0] != '') {
-          return null;
-        }
-        if (pathElements[1] == 'product') {
-          final int index = int.parse(pathElements[2]);
-          return MaterialPageRoute<bool>(
-            builder: (BuildContext context) => ProductPage(
-                _products[index].title,
-                _products[index].image,
-                _products[index].price,
-                _products[index].description),
-          );
-        }
-        return null;
-      },
-      onUnknownRoute: (RouteSettings settings) {
-        return MaterialPageRoute(
-            builder: (BuildContext context) => ProductsPage(_products));
-      },
+    return ScopedModel<MainModel>(
+      model: _model,
+      child: MaterialApp(
+          title: _model.nome,
+          theme: ThemeData(
+            brightness: Brightness.dark,
+            primarySwatch: Colors.red,
+            accentColor: Colors.red,
+            fontFamily: 'Oswald',
+          ),
+          routes: {
+            '/': (BuildContext context) => PaginaListaBares(_model),
+            /* BarCard(bar) */
+            '/pagina0': (BuildContext context) => PaginaPerfil(_model),
+            '/pagina1': (BuildContext context) => PaginaListaBares(_model),
+            '/pagina2': (BuildContext context) => PaginaCompartilhar(_model),
+          }),
     );
   }
 }
