@@ -1,0 +1,4 @@
+#Sun Aug 05 19:29:55 BRT 2018
+base.0=C\:\\Users\\cainh\\Downloads\\app\\projeto_drinkz\\build\\app\\intermediates\\transforms\\dexMerger\\debug\\0
+path.0=classes.dex
+renamed.0=classes.dex
